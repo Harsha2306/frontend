@@ -2,7 +2,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://backend-olsx.onrender.com" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl:
+      import.meta.env.VITE_IS_PROD === "YES"
+        ? import.meta.env.VITE_BACKEND_URL
+        : import.meta.env.VITE_LOCALHOST_BACKEND_URL,
+  }),
   endpoints: (builder) => ({
     postRegister: builder.mutation({
       query: ({ firstName, lastName, email, password }) => ({

@@ -3,7 +3,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://backend-olsx.onrender.com",
+    baseUrl:
+      import.meta.env.VITE_IS_PROD === "YES"
+        ? import.meta.env.VITE_BACKEND_URL
+        : import.meta.env.VITE_LOCALHOST_BACKEND_URL,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) headers.set("Authorization", `Bearer ${token}`);
