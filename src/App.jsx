@@ -22,6 +22,7 @@ import AdminLoginPage from "./pages/admin/AdminLoginPage";
 import PageNotFound from "./pages/PageNotFound";
 import OrderDetails from "./pages/OrderDetails";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import ManageOrdersPage from "./pages/admin/ManageOrdersPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/admin", element: <HomePage /> },
       { path: "/admin/add-product", element: <AddProductPage /> },
       { path: "/admin/login", element: <AdminLoginPage /> },
+      { path: "/admin/orders", element: <ManageOrdersPage /> },
     ],
   },
   {

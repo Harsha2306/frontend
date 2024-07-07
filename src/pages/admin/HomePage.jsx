@@ -18,7 +18,10 @@ const HomePage = () => {
   useEffect(() => {
     if (!isLoading) {
       if (isError) {
-        if (error?.data?.message === "Not Authorized") {
+        if (
+          error?.data?.message === "Not Authorized" ||
+          error?.data?.message === "jwt expired"
+        ) {
           navigateTo("/admin/login");
         }
       } else if (data?.products) {

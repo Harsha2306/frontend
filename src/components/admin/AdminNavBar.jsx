@@ -32,6 +32,7 @@ const AdminNavBar = () => {
             <Grid item xs display="flex">
               <List sx={{ display: "flex", flexDirection: "row", p: 0 }}>
                 <NavItem navItemText={"Products"} to="/admin" />
+                <NavItem navItemText={"Orders"} to="/admin/orders" />
               </List>
             </Grid>
             <Grid item display="flex" alignItems="center">

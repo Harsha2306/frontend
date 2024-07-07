@@ -103,7 +103,7 @@ const OrderDetails = () => {
                 <Typography level="body-lg">
                   Status:
                   <Typography level="title-lg" color="success">
-                    Delivered
+                    {data?.orderStatus}
                   </Typography>
                 </Typography>
               </Grid>

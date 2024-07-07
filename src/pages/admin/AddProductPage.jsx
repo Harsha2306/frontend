@@ -2,7 +2,15 @@ import { useState, useEffect } from "react";
 import { Grid, TextField, CircularProgress, Checkbox } from "@mui/material";
 import useInput from "./customHooks/useInput";
 import AdminNavBar from "../../components/admin/AdminNavBar";
-import { Box, Chip, Alert, Select, Option, Textarea, Typography } from "@mui/joy";
+import {
+  Box,
+  Chip,
+  Alert,
+  Select,
+  Option,
+  Textarea,
+  Typography,
+} from "@mui/joy";
 import { v4 as uuidv4 } from "uuid";
 import StyledButton from "../../components/StyledButton";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
@@ -195,7 +203,11 @@ const AddProductPage = () => {
       if (isError && error?.data?.message === INVALID_PRODUCT_ID) {
         navigateTo("/admin");
       }
-      if (isError && error?.data?.message === "Not Authorized") {
+      if (
+        isError &&
+        (error?.data?.message === "Not Authorized" ||
+          error?.data?.message === "jwt expired")
+      ) {
         navigateTo("/admin/login");
       }
     }
