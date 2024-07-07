@@ -18,6 +18,7 @@ const ProductsPage = ({ gender }) => {
     gender,
     page: "1",
   });
+  const [isPaginating, setIsPaginating] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
   const { data, isLoading, error } = useGetProductsQuery(filterOptions);
 
@@ -31,6 +32,7 @@ const ProductsPage = ({ gender }) => {
   };
 
   const getDataFromPagination = (pageFromPagination) => {
+    setIsPaginating(true);
     setFilterOptions({ ...filterOptions, page: pageFromPagination });
   };
 
@@ -38,12 +40,13 @@ const ProductsPage = ({ gender }) => {
     if (data && data.ok) {
       setProducts(data.products);
       setInitialLoad(false);
+      setIsPaginating(false);
     }
   }, [error, data, navigateTo, filterOptions]);
 
   return (
     <>
-      <Grid marginX={3} marginTop={15}>
+      <Grid marginX={3.5} marginTop={15}>
         <Breadcrumbs>
           <Link style={{ color: "blue" }} to="/">
             <Typography sx={{ color: "blue" }} variant="body1">
@@ -58,39 +61,44 @@ const ProductsPage = ({ gender }) => {
           sx={{ fontSize: "30px", fontWeight: "600", marginBottom: "1rem" }}
         >
           {!isLoading &&
+            !isPaginating &&
             products.length !== 0 &&
             `SHOWING PAGE ${data?.pagination?.page} OF ${data?.pagination?.last}`}
         </Typography>
         <Grid display="flex" columnSpacing={3} rowSpacing={2} container>
-          {!isLoading && !initialLoad && products.length === 0 && (
-            <>
-              <Grid
-                height="300px"
-                container
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-              >
-                <Typography
-                  sx={{
-                    fontSize: "30px",
-                    fontWeight: "600",
-                    marginBottom: "1rem",
-                  }}
-                >
-                  NO PRODUCTS FOUND WITH SPECIFIED FILTERS
-                </Typography>
-              </Grid>
-            </>
-          )}
           {!isLoading &&
+            !isPaginating &&
+            !initialLoad &&
+            products.length === 0 && (
+              <>
+                <Grid
+                  height="300px"
+                  container
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "30px",
+                      fontWeight: "600",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    NO PRODUCTS FOUND WITH SPECIFIED FILTERS
+                  </Typography>
+                </Grid>
+              </>
+            )}
+          {!isLoading &&
+            !isPaginating &&
             products.length !== 0 &&
             products.map((product) => (
               <Grid key={product._id} item>
                 <Product {...product} />
               </Grid>
             ))}
-          {isLoading &&
+          {(isLoading || isPaginating) &&
             Array.from({ length: 10 }, (_, index) => (
               <Grid item key={index}>
                 <ProductSkeleton />
@@ -99,12 +107,15 @@ const ProductsPage = ({ gender }) => {
         </Grid>
         <Grid mt={4} container>
           <Grid item mb={5} mx="auto">
-            {!isLoading && products.length !== 0 && data?.pagination && (
-              <Pagination
-                pagination={data.pagination}
-                sendPage={getDataFromPagination}
-              />
-            )}
+            {!isLoading &&
+              !isPaginating &&
+              products.length !== 0 &&
+              data?.pagination && (
+                <Pagination
+                  pagination={data.pagination}
+                  sendPage={getDataFromPagination}
+                />
+              )}
           </Grid>
         </Grid>
       </Grid>

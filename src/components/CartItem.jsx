@@ -76,8 +76,8 @@ const CartItem = ({
       size,
       color,
     });
-      dispatch(setCartCount(res.data.cartLength));
-      refetch();
+    dispatch(setCartCount(res.data.cartLength));
+    refetch();
   };
 
   const handleDecrement = async () => {
@@ -94,7 +94,7 @@ const CartItem = ({
     <Grid border={1.5} borderColor="lightgray" mb={3} container item xs={12}>
       <Grid
         padding={2}
-        xs={3}
+        xs={3.5}
         item
         onClick={onCartItemClick}
         sx={{ "&:hover": { cursor: "pointer" } }}
