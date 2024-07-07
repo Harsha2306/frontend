@@ -11,7 +11,7 @@ const ProductCarousel = ({ heading, products, isLoading }) => {
   const getGridTemplateColumns = () => {
     if (isSmallScreen) return "repeat(2, calc(50% - 1rem))";
     if (isMediumScreen) return "repeat(4, calc(25% - 1rem))";
-    return "repeat(10, calc(25% - 3rem))";
+    return "repeat(10, calc(25% - 2.5rem))";
   };
 
   const getGap = () => {
