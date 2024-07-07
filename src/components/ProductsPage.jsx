@@ -18,9 +18,10 @@ const ProductsPage = ({ gender }) => {
     gender,
     page: "1",
   });
-  const [isPaginating, setIsPaginating] = useState(false);
+
   const [initialLoad, setInitialLoad] = useState(true);
-  const { data, isLoading, error } = useGetProductsQuery(filterOptions);
+  const { data, isLoading, isFetching, error } =
+    useGetProductsQuery(filterOptions);
 
   const getDataFromFilter = (filterOptionsFromFilter) => {
     const updatedFilterOptions = {
@@ -32,7 +33,6 @@ const ProductsPage = ({ gender }) => {
   };
 
   const getDataFromPagination = (pageFromPagination) => {
-    setIsPaginating(true);
     setFilterOptions({ ...filterOptions, page: pageFromPagination });
   };
 
@@ -40,7 +40,6 @@ const ProductsPage = ({ gender }) => {
     if (data && data.ok) {
       setProducts(data.products);
       setInitialLoad(false);
-      setIsPaginating(false);
     }
   }, [error, data, navigateTo, filterOptions]);
 
@@ -61,13 +60,13 @@ const ProductsPage = ({ gender }) => {
           sx={{ fontSize: "30px", fontWeight: "600", marginBottom: "1rem" }}
         >
           {!isLoading &&
-            !isPaginating &&
+            !isFetching &&
             products.length !== 0 &&
             `SHOWING PAGE ${data?.pagination?.page} OF ${data?.pagination?.last}`}
         </Typography>
         <Grid display="flex" columnSpacing={3} rowSpacing={2} container>
           {!isLoading &&
-            !isPaginating &&
+            !isFetching &&
             !initialLoad &&
             products.length === 0 && (
               <>
@@ -91,14 +90,14 @@ const ProductsPage = ({ gender }) => {
               </>
             )}
           {!isLoading &&
-            !isPaginating &&
+            !isFetching &&
             products.length !== 0 &&
             products.map((product) => (
               <Grid key={product._id} item>
                 <Product {...product} />
               </Grid>
             ))}
-          {(isLoading || isPaginating) &&
+          {(isLoading || isFetching) &&
             Array.from({ length: 10 }, (_, index) => (
               <Grid item key={index}>
                 <ProductSkeleton />
@@ -108,7 +107,7 @@ const ProductsPage = ({ gender }) => {
         <Grid mt={4} container>
           <Grid item mb={5} mx="auto">
             {!isLoading &&
-              !isPaginating &&
+              !isFetching &&
               products.length !== 0 &&
               data?.pagination && (
                 <Pagination
